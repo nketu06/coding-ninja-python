@@ -1,4 +1,4 @@
-
+import queue
 class tree:
     def __init__(self,data):
         self.data=data
@@ -147,6 +147,30 @@ def Betterdiameter(root):
     rightHight,rightdiameter=heightAndDiameter(root.right)
     return max(leftDiameter,rightdiameter,leftHight+rightHight)
 
+def LevelWiseInput():
+    q=queue.Queue()
+    rootData=input("Give Root ")
+    if rootData==-1:
+        return None
+    root=tree(rootData)
+    q.put(root)
+    while ( not (q.empty())):
+        current_node=q.get()
+        print("enter left child of",current_node.data)
+        LeftChilddata=int(input())
+        if LeftChilddata!=-1:
+            leftChild=tree(LeftChilddata)
+            current_node.left=leftChild
+            q.put(leftChild)
+        print("enter right child of", current_node.data)
+        rightChilddata = int(input())
+        if rightChilddata != -1:
+            rightChild = tree(rightChilddata)
+            current_node.right = rightChild
+            q.put(rightChild)
+    return root
+
+
 
 
 # Given a Binary Tree and an integer x, find and return the count of nodes
@@ -156,12 +180,11 @@ def Betterdiameter(root):
 #############################
 
 
-head=treeinput()
+head=LevelWiseInput()
 
-treeprintdetail(head)
-print(diameter(head))
+
 print("------------------")
-print(Betterdiameter(head))
+treeprintdetail(head)
 
 
 
