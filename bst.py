@@ -1,4 +1,6 @@
 import queue
+import sys
+
 class tree:
     def __init__(self,data):
         self.data=data
@@ -149,7 +151,7 @@ def Betterdiameter(root):
 
 def LevelWiseInput():
     q=queue.Queue()
-    rootData=input("Give Root ")
+    rootData=int(input("Give Root "))
     if rootData==-1:
         return None
     root=tree(rootData)
@@ -170,21 +172,96 @@ def LevelWiseInput():
             q.put(rightChild)
     return root
 
+def PrinitLevelwise(root):
+    q=queue.Queue()
+    if root==None:
+        return
+    q.put(root)
+    while(not(q.empty())):
+        current_node=q.get()
+        print(current_node.data,end=" ")
+        if current_node.left!=None:
+            print(": left child of",current_node.data,'is',current_node.left.data,end=" ")
+            q.put( current_node.left)
+        if current_node.right!=None:
+            print(": right child of", current_node.data, 'is', current_node.right.data,end=" ")
+            q.put(current_node.right)
+
+        print(" ")
+
+def insertDuplicateNode(root):
+    if root==None:
+        return
+        newdata=root.data
+        newnode=BinaryTreeNode(newdata)
+        newnode.left=root.left
+        root.left=newnode
+        insertDuplicateNode(newnode.left)
+        insertDuplicateNode(root.right)
+        return root
+
+def maxmin(root):
+    if root==None:
+        return -sys.maxsize,sys.maxsize
+    maxi1,mini1=maxmin(root.left)
+    maxi2,mini2=maxmin(root.right)
+
+    return max(root.data,maxi1,maxi2),min(root.data,mini1,mini2)
 
 
 
-# Given a Binary Tree and an integer x, find and return the count of nodes
-# which are having data greater than x.
-#############################
-# PLEASE ADD YOUR CODE HERE #
-#############################
+def rootToLeafPathsSumToK(root, k, lst):
+    if root==None:
+        return
+    if root.data<=k:
+        lst.append(root.data)
+    if root.data==k:
+        print(lst)
+    if root.data>k:
+        return
+    rootToLeafPathsSumToK(root.left,k-root.data,lst)
+    rootToLeafPathsSumToK(root.right,k-root.data,lst)
+    lst.pop()
+
+def buildTreeWithPreIn(preorder,inorder):
+    if len(preorder)==0:
+        return None
+    rootData=preorder[0]
+    root=tree(rootData)
+    rootIndexInoder=-1
+    for i in range(0, len(inorder)):
+        if inorder[i]==rootData:
+            rootIndexInoder=i
+            break
+    if rootIndexInoder==-1:
+        return
+    leftInorder=inorder[0:rootIndexInoder]
+    rightInorder=inorder[rootIndexInoder+1:]
+
+    lenLeftSubTree=len(leftInorder)
+
+    leftPreOrder=preorder[1:lenLeftSubTree+1]
+    rightPreOrder=preorder[lenLeftSubTree+1:]
+
+    leftChild=buildTreeWithPreIn(leftPreOrder,leftInorder)
+    rightChild=buildTreeWithPreIn(rightPreOrder,rightInorder)
+    root.left=leftChild
+    root.right=rightChild
+    return root
 
 
-head=LevelWiseInput()
 
 
-print("------------------")
-treeprintdetail(head)
+
+
+
+
+
+print("________________")
+pre=[1,2,4,5,3,6,7]
+inorder=[4,2,5,1,6,3,7]
+root=buildTreeWithPreIn(pre,inorder)
+treeprintdetail(root)
 
 
 
