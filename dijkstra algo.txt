@@ -1,0 +1,34 @@
+import sys
+def minvertex(weight,visited,n):
+    index=-1
+    for j in range(n):
+        if visited[j]==False and(index==-1 or weight[j]<weight[index]):
+            index=j
+    return index
+def dij(graph,e,n,s):
+    visited=[False for i in range(n)]
+    weight=[sys.maxsize for i in range(n)]
+
+    weight[s]=0
+    i=0
+    while i<n:
+        mv=minvertex(weight,visited,n)
+        visited[mv]=True
+        for k in range(n):
+            if visited[k]==False and graph[mv][k]>0:
+                if graph[mv][k]+weight[mv]<weight[k]:
+                    weight[k]=graph[mv][k]+weight[mv]
+        i+=1
+    print(s,"->",e,"= ",weight[e])
+    print(weight)
+    
+
+graph=[[0,5,2,0,0],
+       [5,0,1,3,0],
+       [2,1,0,0,4],
+       [0,3,0,0,6],
+       [0,0,4,6,0]]
+startingVertix=4
+endVertix=1
+n=len(graph)
+dij(graph,endVertix,n,startingVertix)

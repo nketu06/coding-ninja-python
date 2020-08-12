@@ -1,0 +1,46 @@
+import sys
+class graph:
+    def __init__ (self,vertex):
+        self.vertex=vertex
+        self.adjmatrix=[[0 for j in range(vertex)] for i in range(vertex)]
+    def add(self,v1,v2,wgt):
+        self.adjmatrix[v1][v2]=wgt
+        self.adjmatrix[v2][v1]=wgt
+
+    def __getmin(self,visited,weight):
+        minv=-1
+        for i in range(self.vertex):
+            if visited[i]==False and (minv==-1 or weight[minv]>weight[i]):
+                minv=i
+        return minv
+
+    def prims(self):
+        visited=[False for i in range(self.vertex)]
+        weight=[sys.maxsize for i in range(self.vertex)]
+        parent=[-1 for i in range(self.vertex)]
+        weight[0]=0
+        for j in range(self.vertex-1):
+            min=self.__getmin(visited,weight)
+            visited[min]=True
+            for k in range(self.vertex):
+                if self.adjmatrix[min][k]>0 and visited[k]==False:
+                    if weight[k]>self.adjmatrix[min][k]:
+                        weight[k] = self.adjmatrix[min][k]
+                        parent[k]=min
+        for i in range(1,self.vertex):
+            if i<parent[i]:
+                print(str(i)+" "+str(parent[i])+" "+str(weight[i]))
+            else:
+                print(str(parent[i]) + " " + str(i) + " " + str(weight[i]))
+
+li=[int(i) for i in input().split()]
+n=li[0]
+e=li[1]
+g=graph(n)
+for k in range(e):
+    inputt=[int(ele) for ele in input().split()]
+    v1=inputt[0]
+    v2=inputt[1]
+    wgt=inputt[2]
+    g.add(v1,v2,wgt)
+g.prims()
