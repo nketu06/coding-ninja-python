@@ -1,0 +1,44 @@
+def canplace(board,row,col,num):
+    for k in range(4):
+        if board[row][k]==num or board[k][col]==num:
+            return False
+    rows=row-row%2
+    cols=col-col%2
+    for i in range(rows,rows+2):
+        for j in range(cols,cols+2):
+            if board[i][j]==num:
+                return False
+    return True
+            
+
+def sudokuSolver(board):
+    row=-1
+    col=-1
+    isEmpty=False
+    for i in range(4):
+        for j in range(4):
+            if board[i][j]==0:
+                isEmpty=True
+                row=i
+                col=j
+                break
+        if isEmpty==True:
+            break
+    if isEmpty==False:
+        return True
+    for num in range(1,5):
+        if canplace(board,row,col,num):
+            board[row][col]=num
+            if(sudokuSolver(board)):
+                return True
+            board[row][col]=0
+    return False
+
+board=[[1,3,0,4],
+       [2,0,3,1],
+       [0,1,0,2],
+       [4,0,1,0]]        
+print(sudokuSolver(board))
+for i in board:
+    print(i)
+print()
