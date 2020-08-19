@@ -1,0 +1,45 @@
+def diagonal(board,n,x,y):
+    xaxis=x
+    yaxis=y
+    while(xaxis>=0 and yaxis>=0):
+        if board[xaxis][yaxis]==1 and yaxis !=y:
+            return False
+        xaxis-=1
+        yaxis-=1
+        
+    xaxis=x
+    yaxis=y
+    while(yaxis<n and xaxis>=0):
+        if board[xaxis][yaxis]==1 and yaxis !=y:
+            return False
+        xaxis-=1
+        yaxis+=1
+    return True
+
+def place(board,n,x,i):
+    for k in range(x):
+        if board[k][i]==1:
+            return False
+    return(diagonal(board,n,x,i))
+
+def queen(board,n,x):
+    if x==n:
+        for i in board:
+            print(i)
+        print()
+        return
+    for i in range(n):
+        board[x][i]=1
+        if(place(board,n,x,i)):
+            queen(board,n,x+1)
+               
+        board[x][i]=0
+   
+        
+    
+            
+
+
+n=int(input())
+board=[[0 for j in range(n)]for i in range(n)]
+queen(board,n,0)
