@@ -1,0 +1,61 @@
+
+def check(n,pos,digit):
+    length=len(pos)
+    x=0
+    while n>1:
+        n-=1
+        y=x+1
+        temp=0
+        while(temp<digit):
+            if(y>=length):
+                return False
+            temp=pos[y]-pos[x]
+            y=y+1
+        x=y-1
+    return True
+        
+
+test=int(input())
+while(test>0):
+    test-=1
+    total,n=input().split()
+    total=int(total)
+    n=int(n)
+    pos=[]
+    for i in range(total):
+        s=int(input())
+        pos.append(s)
+    pos.sort()
+    mini=0
+    maxi=pos[-1]-pos[0]
+    mid=(maxi-mini)//2
+    flag=0
+    while(True):
+        r=(check(n,pos,mid))
+        if(r):
+            flag=1
+            if(maxi==mini):
+                break
+            if mid==mini:
+                mini=mid+1
+            else:
+                mini=mid
+        
+        else:
+            flag=0
+            if(maxi==mini):
+                break
+            maxi=mid-1
+        
+        mid=(maxi+mini)//2
+    
+    if flag==1:
+        print(mid)
+    else:
+        print(mid-1)
+
+        
+    
+
+
+    
